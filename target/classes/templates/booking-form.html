@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Tickets - Cinema Booking</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" style="text-decoration: none; color: inherit;">
+            <h1>🎬 Cinema <span class="accent">Booking</span></h1>
+        </a>
+    </header>
+
+    <main>
+        <div class="header-section">
+            <h2>Book Tickets</h2>
+            <p class="description" th:text="${movie.title} + ' - ' + ${#temporals.format(screening.startTime, 'dd MMM HH:mm')}">Movie - Time</p>
+        </div>
+
+        <div class="booking-container">
+            <!-- Тут ми пізніше додамо відображення помилок з TDD логіки -->
+            
+            <form th:action="@{'/screenings/' + ${screening.id} + '/book'}" th:object="${booking}" method="post" class="booking-form">
+                
+                <div class="form-group">
+                    <label for="customerName">Your Name</label>
+                    <input type="text" id="customerName" th:field="*{customerName}" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="customerAge">Your Age</label>
+                    <input type="number" id="customerAge" th:field="*{customerAge}" required placeholder="18" min="1">
+                    <small class="hint" th:text="'Movie age rating: ' + ${movie.ageRating} + '+'">Age Rating: 12+</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticketsCount">Number of Tickets</label>
+                    <input type="number" id="ticketsCount" th:field="*{ticketsCount}" required placeholder="1" min="1" max="6">
+                    <small class="hint" th:text="'Price per ticket: ' + ${#numbers.formatDecimal(effectivePrice, 1, 2)} + ' CZK'">Price: 150 CZK</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-submit">Confirm Booking</button>
+                    <a th:href="@{'/movies/' + ${movie.id} + '/screenings'}" class="btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Cinema Booking System (TDD Project)</p>
+    </footer>
+</body>
+</html>

@@ -36,8 +36,7 @@
                         seats left</span>
                 </div>
                 <div class="actions">
-                    <a href="#" class="btn" th:classappend="${screening.availableSeats == 0} ? 'disabled'">Book
-                        Tickets</a>
+                    <a th:href="@{'/screenings/' + ${screening.id} + '/book'}" class="btn" th:classappend="${screening.availableSeats == 0} ? 'disabled'">Book Tickets</a>
                 </div>
             </div>
 
