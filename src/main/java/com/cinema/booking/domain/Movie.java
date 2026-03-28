@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Movie {
@@ -11,8 +14,14 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Title is required")
     private String title;
+
     private String description;
+
+    @NotNull(message = "Age rating is required")
+    @Min(value = 0, message = "Age rating cannot be negative")
     private Integer ageRating;
 
     public Movie() {}
