@@ -58,7 +58,7 @@ class BookingTest {
     void cancel_ShouldThrowException_WhenLessTimeRemainingThenOneHour() {
         // Arrange
         Booking booking = new Booking();
-        booking.setStatus("ACTIVE");
+        booking.setStatus(BookingStatus.ACTIVE);
         LocalDateTime now = LocalDateTime.of(2024, 6, 15, 10, 0);
         LocalDateTime screeningTime = LocalDateTime.of(2024, 6, 15, 10, 30); // 30 хв до сеансу
 
@@ -71,7 +71,7 @@ class BookingTest {
     void cancel_ShouldSetStatusToCancelled_WhenMoreThanOneHourRemaining() {
         // Arrange
         Booking booking = new Booking();
-        booking.setStatus("ACTIVE");
+        booking.setStatus(BookingStatus.ACTIVE);
         LocalDateTime now = LocalDateTime.of(2024, 6, 15, 10, 0);
         LocalDateTime screeningTime = LocalDateTime.of(2024, 6, 15, 12, 0); // 2 години до сеансу
 
@@ -79,6 +79,6 @@ class BookingTest {
         booking.cancel(now, screeningTime);
 
         // Assert
-        assertEquals("CANCELLED", booking.getStatus());
+        assertEquals(BookingStatus.CANCELLED, booking.getStatus());
     }
 }

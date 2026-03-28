@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -17,7 +19,9 @@ public class Booking {
     private String customerName;
     private Integer customerAge;
     private Integer ticketsCount;
-    private String status; // ACTIVE or CANCELLED
+
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status; // ACTIVE or CANCELLED
 
     public Booking() {}
 
@@ -68,11 +72,11 @@ public class Booking {
         }
     }
 
-    public String getStatus() {
+    public BookingStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(BookingStatus status) {
         this.status = status;
     }
 
@@ -90,6 +94,6 @@ public class Booking {
         if (Duration.between(now, screeningTime).toMinutes() < 60) {
             throw new IllegalStateException("Cannot cancel booking less than 1 hour before screening");
         }
-        this.status = "CANCELLED";
+        this.status = BookingStatus.CANCELLED;
     }
 }
