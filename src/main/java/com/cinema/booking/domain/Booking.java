@@ -69,4 +69,10 @@ public class Booking {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void validateAge(Movie movie) {
+        if (this.customerAge < movie.getAgeRating()) {
+            throw new IllegalStateException("Customer age is below the movie age rating");
+        }
+    }
 }

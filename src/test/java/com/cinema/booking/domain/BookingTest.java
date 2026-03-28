@@ -22,8 +22,34 @@ class BookingTest {
         // Arrange
         Booking booking = new Booking();
 
-        // Act & Assert - не повинно кидати виняток
+        // Act & Assert
         assertDoesNotThrow(() -> booking.setTicketsCount(1));
         assertDoesNotThrow(() -> booking.setTicketsCount(6));
+    }
+
+    @Test
+    void validateAge_ShouldThrowException_WhenCustomerIsTooYoung() {
+        // Arrange
+        Booking booking = new Booking();
+        booking.setCustomerAge(15);
+        Movie movie = new Movie();
+        movie.setAgeRating(18);
+
+        // Act & Assert
+        assertThrows(IllegalStateException.class, () -> booking.validateAge(movie),
+                "Should throw when customer is younger than movie age rating");
+    }
+
+    @Test
+    void validateAge_ShouldSucceed_WhenCustomerMeetsAgeRating() {
+        // Arrange
+        Booking booking = new Booking();
+        booking.setCustomerAge(18);
+        Movie movie = new Movie();
+        movie.setAgeRating(18);
+
+        // Act & Assert
+        assertDoesNotThrow(() -> booking.validateAge(movie),
+                "Should not throw when customer meets age rating");
     }
 }
