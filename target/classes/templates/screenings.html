@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema Booking - Sessions</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" style="text-decoration: none; color: inherit;">
+            <h1>🎬 Cinema <span class="accent">Booking</span></h1>
+        </a>
+    </header>
+
+    <main>
+        <div class="header-section">
+            <h2 th:text="'Sessions for: ' + ${movie.title}">Sessions</h2>
+            <p th:text="${movie.description}" class="description">Description</p>
+        </div>
+
+        <div class="screening-list">
+            <div th:each="screening : ${screenings}" class="screening-card">
+                <div class="time-info">
+                    <span class="date" th:text="${#temporals.format(screening.startTime, 'dd MMM (EEEE)')}">Date</span>
+                    <span class="time" th:text="${#temporals.format(screening.startTime, 'HH:mm')}">Time</span>
+                </div>
+                <div class="price-info">
+                    <span class="price-label">Price:</span>
+                    <span class="price-value" th:text="${#numbers.formatDecimal(screening.ticketPrice, 1, 2)} + ' UAH'">150.00 UAH</span>
+                </div>
+                <div class="availability">
+                    <span th:text="${screening.availableSeats} + ' / ' + ${screening.totalSeats} + ' seats left'">90/100 seats left</span>
+                </div>
+                <div class="actions">
+                    <a href="#" class="btn" th:classappend="${screening.availableSeats == 0} ? 'disabled'">Book Tickets</a>
+                </div>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(screenings)}" class="no-data">
+                <p>No sessions found for this movie. Check back later!</p>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a th:href="@{/}" class="accent">&larr; Back to all movies</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Cinema Booking System (TDD Project)</p>
+    </footer>
+</body>
+</html>
