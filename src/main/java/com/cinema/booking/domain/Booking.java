@@ -56,10 +56,14 @@ public class Booking {
     }
 
     public void setTicketsCount(Integer ticketsCount) {
+        validateTicketsCount(ticketsCount);
+        this.ticketsCount = ticketsCount;
+    }
+
+    private void validateTicketsCount(Integer ticketsCount) {
         if (ticketsCount == null || ticketsCount <= 0 || ticketsCount > 6) {
             throw new IllegalArgumentException("Tickets count must be between 1 and 6");
         }
-        this.ticketsCount = ticketsCount;
     }
 
     public String getStatus() {
@@ -71,8 +75,12 @@ public class Booking {
     }
 
     public void validateAge(Movie movie) {
-        if (this.customerAge < movie.getAgeRating()) {
+        if (isTooYoungFor(movie)) {
             throw new IllegalStateException("Customer age is below the movie age rating");
         }
+    }
+
+    private boolean isTooYoungFor(Movie movie) {
+        return this.customerAge < movie.getAgeRating();
     }
 }
