@@ -85,4 +85,11 @@ public class Screening {
             throw new IllegalStateException("Not enough seats available");
         }
     }
+
+    public double getEffectivePrice() {
+        if (startTime != null && startTime.getHour() < 12) {
+            return ticketPrice * 0.8;
+        }
+        return ticketPrice;
+    }
 }
