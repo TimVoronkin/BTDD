@@ -87,9 +87,17 @@ public class Screening {
     }
 
     public double getEffectivePrice() {
-        if (startTime != null && startTime.getHour() < 12) {
-            return ticketPrice * 0.8;
+        if (isMorningScreening()) {
+            return applyMorningDiscount(ticketPrice);
         }
         return ticketPrice;
+    }
+
+    private boolean isMorningScreening() {
+        return startTime != null && startTime.getHour() < 12;
+    }
+
+    private double applyMorningDiscount(double price) {
+        return price * 0.8;
     }
 }
