@@ -49,6 +49,9 @@ public class Screening {
     }
 
     public void setTicketPrice(Double ticketPrice) {
+        if (ticketPrice == null || ticketPrice <= 0) {
+            throw new IllegalArgumentException("Ticket price must be greater than zero");
+        }
         this.ticketPrice = ticketPrice;
     }
 
