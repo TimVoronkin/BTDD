@@ -10,6 +10,7 @@ import com.cinema.booking.repository.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
 
 @Service
 public class BookingService {
@@ -44,5 +45,23 @@ public class BookingService {
         // Оновлюємо кількість місць у сеансі та зберігаємо бронювання
         screeningRepository.save(screening);
         return bookingRepository.save(booking);
+    }
+
+    @Transactional
+    public void cancelBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+
+        Screening screening = screeningRepository.findById(booking.getScreeningId())
+                .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
+
+        // Логіка скасування з доменної моделі
+        booking.cancel(LocalDateTime.now(), screening.getStartTime());
+
+        // Повертаємо місця в сеанс при скасуванні
+        screening.setAvailableSeats(screening.getAvailableSeats() + booking.getTicketsCount());
+        
+        screeningRepository.save(screening);
+        bookingRepository.save(booking);
     }
 }
