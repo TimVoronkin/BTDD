@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema Booking - Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>🎬 Cinema <span class="accent">Booking</span></h1>
+    </header>
+
+    <main>
+        <h2>Schedule</h2>
+        <div class="movie-grid">
+            <div th:each="movie : ${movies}" class="movie-card">
+                <h3 th:text="${movie.title}">Movie Title</h3>
+                <p class="description" th:text="${movie.description}">Description</p>
+                <div class="meta">
+                    <span class="rating" th:text="${movie.ageRating} + '+'">12+</span>
+                    <a href="#" class="btn">View Sessions</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Cinema Booking System (TDD Project)</p>
+    </footer>
+</body>
+</html>
