@@ -5,19 +5,31 @@
     <meta charset="UTF-8">
     <title>Cinema Booking - Sessions</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/png" th:href="@{/favicon.png}">
 </head>
 
 <body>
     <header>
         <a th:href="@{/}" style="text-decoration: none; color: inherit;">
-            <h1>🎬 Cinema <span class="accent">Booking</span></h1>
+            <h1>
+                <img th:src="@{/favicon.png}" alt="Logo" class="header-logo"> 
+                Cinema <span class="accent">Booking</span>
+            </h1>
         </a>
     </header>
 
     <main>
-        <div class="header-section">
-            <h2 th:text="'Sessions for: ' + ${movie.title}">Sessions</h2>
-            <p th:text="${movie.description}" class="description">Description</p>
+        <div class="header-section" style="display: flex; gap: 2rem; align-items: flex-start; text-align: left; max-width: 800px; margin: 0 auto 3rem auto;">
+            <img th:src="${movie.posterUrl}" th:alt="${movie.title} + ' Poster'" class="movie-poster" style="width: 200px;">
+            <div>
+                <h2 th:text="${movie.title} + ' (' + ${movie.year} + ')'">Sessions</h2>
+                <div class="movie-details" style="margin-bottom: 1rem;">
+                    <span th:text="${movie.genre}">Genre</span> &bull; 
+                    <span th:text="${movie.runtime}">Runtime</span> &bull; 
+                    <span class="rating" th:text="${movie.ageRating} + '+'">12+</span>
+                </div>
+                <p th:text="${movie.description}" class="description">Description</p>
+            </div>
         </div>
 
         <div class="screening-list">

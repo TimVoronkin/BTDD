@@ -4,17 +4,28 @@
     <meta charset="UTF-8">
     <title>Cinema Booking - Home</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/png" th:href="@{/favicon.png}">
 </head>
 <body>
     <header>
-        <h1>🎬 Cinema <span class="accent">Booking</span></h1>
+        <h1>
+            <img th:src="@{/favicon.png}" alt="Logo" class="header-logo"> 
+            Cinema <span class="accent">Booking</span>
+        </h1>
     </header>
 
     <main>
         <h2>Schedule</h2>
         <div class="movie-grid">
             <div th:each="movie : ${movies}" class="movie-card">
-                <h3 th:text="${movie.title}">Movie Title</h3>
+                <img th:src="${movie.posterUrl}" th:alt="${movie.title} + ' Poster'" class="movie-poster">
+                <h3 th:text="${movie.title} + ' (' + ${movie.year} + ')'">Movie Title</h3>
+                
+                <div class="movie-details">
+                    <span th:text="${movie.genre}">Genre</span> &bull; 
+                    <span th:text="${movie.runtime}">Runtime</span>
+                </div>
+
                 <p class="description" th:text="${movie.description}">Description</p>
                 <div class="meta">
                     <span class="rating" th:text="${movie.ageRating} + '+'">12+</span>

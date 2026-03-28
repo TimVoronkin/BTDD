@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,14 @@ public class Movie {
     private String title;
 
     private String description;
+    
+    // Нові поля для OMDb API
+    @Column(name = "release_year")
+    private String year;
+    
+    private String runtime;
+    private String genre;
+    private String posterUrl;
 
     @NotNull(message = "Age rating is required")
     @Min(value = 0, message = "Age rating cannot be negative")
@@ -49,6 +58,18 @@ public class Movie {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getYear() { return year; }
+    public void setYear(String year) { this.year = year; }
+
+    public String getRuntime() { return runtime; }
+    public void setRuntime(String runtime) { this.runtime = runtime; }
+
+    public String getGenre() { return genre; }
+    public void setGenre(String genre) { this.genre = genre; }
+
+    public String getPosterUrl() { return posterUrl; }
+    public void setPosterUrl(String posterUrl) { this.posterUrl = posterUrl; }
 
     public Integer getAgeRating() {
         return ageRating;

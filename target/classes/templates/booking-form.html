@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <title>Book Tickets - Cinema Booking</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/png" th:href="@{/favicon.png}">
 </head>
 <body>
     <header>
         <a th:href="@{/}" style="text-decoration: none; color: inherit;">
-            <h1>🎬 Cinema <span class="accent">Booking</span></h1>
+            <h1>
+                <img th:src="@{/favicon.png}" alt="Logo" class="header-logo"> 
+                Cinema <span class="accent">Booking</span>
+            </h1>
         </a>
     </header>
 
