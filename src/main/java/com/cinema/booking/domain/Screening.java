@@ -49,10 +49,14 @@ public class Screening {
     }
 
     public void setTicketPrice(Double ticketPrice) {
+        validateTicketPrice(ticketPrice);
+        this.ticketPrice = ticketPrice;
+    }
+
+    private void validateTicketPrice(Double ticketPrice) {
         if (ticketPrice == null || ticketPrice <= 0) {
             throw new IllegalArgumentException("Ticket price must be greater than zero");
         }
-        this.ticketPrice = ticketPrice;
     }
 
     public Integer getTotalSeats() {
