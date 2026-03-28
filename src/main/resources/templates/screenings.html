@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Cinema Booking - Sessions</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
     <header>
         <a th:href="@{/}" style="text-decoration: none; color: inherit;">
@@ -26,16 +28,19 @@
                 </div>
                 <div class="price-info">
                     <span class="price-label">Price:</span>
-                    <span class="price-value" th:text="${#numbers.formatDecimal(screening.ticketPrice, 1, 2)} + ' UAH'">150.00 UAH</span>
+                    <span class="price-value"
+                        th:text="${#numbers.formatDecimal(screening.ticketPrice, 1, 2)} + ' CZK'">150.00 CZK</span>
                 </div>
                 <div class="availability">
-                    <span th:text="${screening.availableSeats} + ' / ' + ${screening.totalSeats} + ' seats left'">90/100 seats left</span>
+                    <span th:text="${screening.availableSeats} + ' / ' + ${screening.totalSeats} + ' seats left'">90/100
+                        seats left</span>
                 </div>
                 <div class="actions">
-                    <a href="#" class="btn" th:classappend="${screening.availableSeats == 0} ? 'disabled'">Book Tickets</a>
+                    <a href="#" class="btn" th:classappend="${screening.availableSeats == 0} ? 'disabled'">Book
+                        Tickets</a>
                 </div>
             </div>
-            
+
             <div th:if="${#lists.isEmpty(screenings)}" class="no-data">
                 <p>No sessions found for this movie. Check back later!</p>
             </div>
@@ -50,4 +55,5 @@
         <p>&copy; 2024 Cinema Booking System (TDD Project)</p>
     </footer>
 </body>
+
 </html>
