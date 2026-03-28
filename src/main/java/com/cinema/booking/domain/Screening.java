@@ -74,4 +74,11 @@ public class Screening {
     public void setAvailableSeats(Integer availableSeats) {
         this.availableSeats = availableSeats;
     }
+
+    public void bookSeats(int count) {
+        if (count > this.availableSeats) {
+            throw new IllegalStateException("Not enough seats available");
+        }
+        this.availableSeats -= count;
+    }
 }
