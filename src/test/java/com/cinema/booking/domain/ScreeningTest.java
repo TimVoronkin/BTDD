@@ -1,6 +1,7 @@
 package com.cinema.booking.domain;
 
 import org.junit.jupiter.api.Test;
+import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ScreeningTest {
@@ -37,5 +38,33 @@ class ScreeningTest {
 
         // Assert
         assertEquals(7, screening.getAvailableSeats());
+    }
+
+    @Test
+    void getEffectivePrice_ShouldApply20PercentDiscount_WhenScreeningIsMorning() {
+        // Arrange
+        Screening screening = new Screening();
+        screening.setTicketPrice(100.0);
+        screening.setStartTime(LocalDateTime.of(2024, 6, 15, 10, 0)); // 10:00 — ранковий
+
+        // Act
+        double price = screening.getEffectivePrice();
+
+        // Assert
+        assertEquals(80.0, price, 0.001, "Morning screening should cost 80% of base price");
+    }
+
+    @Test
+    void getEffectivePrice_ShouldReturnFullPrice_WhenScreeningIsAfterNoon() {
+        // Arrange
+        Screening screening = new Screening();
+        screening.setTicketPrice(100.0);
+        screening.setStartTime(LocalDateTime.of(2024, 6, 15, 14, 0)); // 14:00 — денний
+
+        // Act
+        double price = screening.getEffectivePrice();
+
+        // Assert
+        assertEquals(100.0, price, 0.001, "Afternoon screening should cost full price");
     }
 }
