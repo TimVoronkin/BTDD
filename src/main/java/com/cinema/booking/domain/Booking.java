@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Entity
 public class Booking {
@@ -82,5 +84,12 @@ public class Booking {
 
     private boolean isTooYoungFor(Movie movie) {
         return this.customerAge < movie.getAgeRating();
+    }
+
+    public void cancel(LocalDateTime now, LocalDateTime screeningTime) {
+        if (Duration.between(now, screeningTime).toMinutes() < 60) {
+            throw new IllegalStateException("Cannot cancel booking less than 1 hour before screening");
+        }
+        this.status = "CANCELLED";
     }
 }
