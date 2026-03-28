@@ -56,6 +56,9 @@ public class Booking {
     }
 
     public void setTicketsCount(Integer ticketsCount) {
+        if (ticketsCount == null || ticketsCount <= 0 || ticketsCount > 6) {
+            throw new IllegalArgumentException("Tickets count must be between 1 and 6");
+        }
         this.ticketsCount = ticketsCount;
     }
 
