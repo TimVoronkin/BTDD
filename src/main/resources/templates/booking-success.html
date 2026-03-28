@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Success - Cinema Booking</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .success-box {
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent);
+        }
+        .success-icon {
+            font-size: 5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .booking-ref {
+            font-family: monospace;
+            font-size: 1.5rem;
+            color: #fff;
+            background: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" style="text-decoration: none; color: inherit;">
+            <h1>🎬 Cinema <span class="accent">Booking</span></h1>
+        </a>
+    </header>
+
+    <main>
+        <div class="success-box">
+            <div class="success-icon">✓</div>
+            <h2>Booking Confirmed!</h2>
+            <p class="description">Your tickets have been successfully reserved.</p>
+            
+            <p>Your Booking Reference: <br>
+                <span class="booking-ref" th:text="'#' + ${bookingId}">#12345</span>
+            </p>
+
+            <div style="margin-top: 2rem;">
+                <a th:href="@{/}" class="btn">Return to Schedule</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Cinema Booking System (TDD Project)</p>
+    </footer>
+</body>
+</html>

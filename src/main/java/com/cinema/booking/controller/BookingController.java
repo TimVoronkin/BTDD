@@ -49,4 +49,27 @@ public class BookingController {
         
         return "booking-form";
     }
+
+    @PostMapping("/screenings/{screeningId}/book")
+    public String processBooking(@PathVariable Long screeningId, 
+                                 @ModelAttribute Booking booking, 
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            booking.setScreeningId(screeningId);
+            // Тут відпрацьовує наша TDD-логіка (валідація віку, місць, тощо)
+            Booking savedBooking = bookingService.createBooking(booking);
+            return "redirect:/bookings/" + savedBooking.getId() + "/success";
+            
+        } catch (Exception e) {
+            // Якщо якесь правило TDD порушене, ми ловимо це тут і показуємо користувачу
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/screenings/" + screeningId + "/book";
+        }
+    }
+
+    @GetMapping("/bookings/{bookingId}/success")
+    public String bookingSuccess(@PathVariable Long bookingId, Model model) {
+        model.addAttribute("bookingId", bookingId);
+        return "booking-success";
+    }
 }

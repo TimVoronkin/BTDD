@@ -19,7 +19,9 @@
         </div>
 
         <div class="booking-container">
-            <!-- Тут ми пізніше додамо відображення помилок з TDD логіки -->
+            <div th:if="${errorMessage}" class="error-message">
+                <strong>Error!</strong> <span th:text="${errorMessage}">Validation message</span>
+            </div>
             
             <form th:action="@{'/screenings/' + ${screening.id} + '/book'}" th:object="${booking}" method="post" class="booking-form">
                 
