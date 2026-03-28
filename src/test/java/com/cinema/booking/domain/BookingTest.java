@@ -1,6 +1,7 @@
 package com.cinema.booking.domain;
 
 import org.junit.jupiter.api.Test;
+import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BookingTest {
@@ -51,5 +52,33 @@ class BookingTest {
         // Act & Assert
         assertDoesNotThrow(() -> booking.validateAge(movie),
                 "Should not throw when customer meets age rating");
+    }
+
+    @Test
+    void cancel_ShouldThrowException_WhenLessTimeRemainingThenOneHour() {
+        // Arrange
+        Booking booking = new Booking();
+        booking.setStatus("ACTIVE");
+        LocalDateTime now = LocalDateTime.of(2024, 6, 15, 10, 0);
+        LocalDateTime screeningTime = LocalDateTime.of(2024, 6, 15, 10, 30); // 30 хв до сеансу
+
+        // Act & Assert
+        assertThrows(IllegalStateException.class, () -> booking.cancel(now, screeningTime),
+                "Should not allow cancellation less than 1 hour before screening");
+    }
+
+    @Test
+    void cancel_ShouldSetStatusToCancelled_WhenMoreThanOneHourRemaining() {
+        // Arrange
+        Booking booking = new Booking();
+        booking.setStatus("ACTIVE");
+        LocalDateTime now = LocalDateTime.of(2024, 6, 15, 10, 0);
+        LocalDateTime screeningTime = LocalDateTime.of(2024, 6, 15, 12, 0); // 2 години до сеансу
+
+        // Act
+        booking.cancel(now, screeningTime);
+
+        // Assert
+        assertEquals("CANCELLED", booking.getStatus());
     }
 }
