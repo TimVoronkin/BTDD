@@ -235,6 +235,38 @@ footer {
 }
 
 /* Booking Form Styles */
+.booking-header-split {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #333;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.movie-info-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.movie-poster-small {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.screening-info-right {
+    text-align: right;
+    border-left: 1px solid #333;
+    padding-left: 1.5rem;
+}
+
 .booking-container {
     max-width: 500px;
     margin: 0 auto;
@@ -313,4 +345,55 @@ footer {
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
     text-align: center;
+}
+
+/* Checkout Receipt */
+.receipt {
+    background: var(--bg-dark);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    color: #ccc;
+}
+
+.receipt-row.total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.checkbox-group {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-group label {
+    font-size: 0.9rem;
+    color: #ccc;
+    cursor: pointer;
+    margin: 0;
+}
+
+select {
+    background: var(--bg-dark);
+    border: 1px solid #444;
+    color: var(--text-light);
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--accent);
 }

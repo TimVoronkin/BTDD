@@ -50,18 +50,41 @@ public class BookingController {
         return "booking-form";
     }
 
+    @PostMapping("/screenings/{screeningId}/checkout")
+    public String processCheckout(@PathVariable Long screeningId, 
+                                  @ModelAttribute Booking booking, 
+                                  RedirectAttributes redirectAttributes,
+                                  Model model) {
+        try {
+            booking.setScreeningId(screeningId);
+            // Викликаємо валідацію TDD перед тим, як переходити на чекаут
+            bookingService.validateBooking(booking);
+            
+            Screening screening = screeningRepository.findById(screeningId).get();
+            Movie movie = movieRepository.findById(screening.getMovieId()).get();
+            
+            model.addAttribute("booking", booking);
+            model.addAttribute("screening", screening);
+            model.addAttribute("movie", movie);
+            model.addAttribute("totalPrice", screening.getEffectivePrice() * booking.getTicketsCount());
+            
+            return "checkout";
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/screenings/" + screeningId + "/book";
+        }
+    }
+
     @PostMapping("/screenings/{screeningId}/book")
-    public String processBooking(@PathVariable Long screeningId, 
+    public String confirmBooking(@PathVariable Long screeningId, 
                                  @ModelAttribute Booking booking, 
                                  RedirectAttributes redirectAttributes) {
         try {
             booking.setScreeningId(screeningId);
-            // Тут відпрацьовує наша TDD-логіка (валідація віку, місць, тощо)
             Booking savedBooking = bookingService.createBooking(booking);
             return "redirect:/bookings/" + savedBooking.getId() + "/success";
-            
         } catch (Exception e) {
-            // Якщо якесь правило TDD порушене, ми ловимо це тут і показуємо користувачу
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/screenings/" + screeningId + "/book";
         }

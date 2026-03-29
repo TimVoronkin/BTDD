@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Cinema Booking - Home</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="icon" type="image/png" th:href="@{/favicon.png}">
 </head>
+
 <body>
     <header>
         <h1>
-            <img th:src="@{/favicon.png}" alt="Logo" class="header-logo"> 
+            <img th:src="@{/favicon.png}" alt="Logo" class="header-logo">
             Cinema <span class="accent">Booking</span>
         </h1>
     </header>
 
     <main>
-        <h2>Schedule</h2>
+        <h2>Schedule for this month</h2>
         <div class="movie-grid">
             <div th:each="movie : ${movies}" class="movie-card">
                 <img th:src="${movie.posterUrl}" th:alt="${movie.title} + ' Poster'" class="movie-poster">
                 <h3 th:text="${movie.title} + ' (' + ${movie.year} + ')'">Movie Title</h3>
-                
+
                 <div class="movie-details">
-                    <span th:text="${movie.genre}">Genre</span> &bull; 
+                    <span th:text="${movie.genre}">Genre</span> &bull;
                     <span th:text="${movie.runtime}">Runtime</span>
                 </div>
 
@@ -36,7 +38,8 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Cinema Booking System (TDD Project)</p>
+        <p>&copy; 2026 CinemaBooking by Tim Voronkin</p>
     </footer>
 </body>
+
 </html>

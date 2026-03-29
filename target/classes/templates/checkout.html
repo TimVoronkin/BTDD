@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - Cinema Booking</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/png" th:href="@{/favicon.png}">
+</head>
+
+<body>
+    <header>
+        <a th:href="@{/}" style="text-decoration: none; color: inherit;">
+            <h1>
+                <img th:src="@{/favicon.png}" alt="Logo" class="header-logo">
+                Cinema <span class="accent">Booking</span>
+            </h1>
+        </a>
+    </header>
+
+    <main>
+        <div class="booking-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Checkout Summary</h2>
+
+            <div class="receipt">
+                <div class="receipt-row">
+                    <span>Ticket Price:</span>
+                    <span th:text="${#numbers.formatDecimal(screening.effectivePrice, 1, 2)} + ' CZK'">150 CZK</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Quantity:</span>
+                    <span th:text="${booking.ticketsCount} + 'x'">2x</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Email:</span>
+                    <span th:text="${booking.customerEmail}">foo@bar.com</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Payment Method:</span>
+                    <span th:text="${booking.paymentMethod}" style="color: var(--accent);">Google Pay</span>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #333; margin: 1.5rem 0;">
+
+                <div class="receipt-row total">
+                    <span>Total Amount:</span>
+                    <span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)} + ' CZK'">300 CZK</span>
+                </div>
+            </div>
+
+            <form th:action="@{'/screenings/' + ${screening.id} + '/book'}" method="post" class="booking-form"
+                style="margin-top: 2rem;">
+                <!-- Приховані поля для фінального виклику створення бронювання -->
+                <input type="hidden" name="customerName" th:value="${booking.customerName}">
+                <input type="hidden" name="customerEmail" th:value="${booking.customerEmail}">
+                <input type="hidden" name="customerAge" th:value="${booking.customerAge}">
+                <input type="hidden" name="ticketsCount" th:value="${booking.ticketsCount}">
+                <input type="hidden" name="paymentMethod" th:value="${booking.paymentMethod}">
+
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" required>
+                        I agree to the Terms and Conditions and confirm my reservation.
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-submit">Pay</button>
+                    <a href="javascript:history.back()" class="btn-cancel">Go Back</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 CinemaBooking by Tim Voronkin</p>
+    </footer>
+</body>
+
+</html>

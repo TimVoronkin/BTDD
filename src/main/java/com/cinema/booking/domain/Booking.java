@@ -19,6 +19,8 @@ public class Booking {
     private String customerName;
     private Integer customerAge;
     private Integer ticketsCount;
+    private String customerEmail;
+    private String paymentMethod;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status; // ACTIVE or CANCELLED
@@ -60,6 +62,12 @@ public class Booking {
     public Integer getTicketsCount() {
         return ticketsCount;
     }
+
+    public String getCustomerEmail() { return customerEmail; }
+    public void setCustomerEmail(String customerEmail) { this.customerEmail = customerEmail; }
+
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 
     public void setTicketsCount(Integer ticketsCount) {
         validateTicketsCount(ticketsCount);

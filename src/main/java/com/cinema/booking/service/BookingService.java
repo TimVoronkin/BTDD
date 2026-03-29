@@ -30,21 +30,34 @@ public class BookingService {
 
     @Transactional
     public Booking createBooking(Booking booking) {
+        validateBooking(booking);
+
+        Screening screening = screeningRepository.findById(booking.getScreeningId()).get();
+        screening.bookSeats(booking.getTicketsCount());
+        booking.setStatus(BookingStatus.ACTIVE);
+        
+        // Оновлюємо кількість місць у сеансі та зберігаємо бронювання
+        screeningRepository.save(screening);
+        return bookingRepository.save(booking);
+    }
+
+    public void validateBooking(Booking booking) {
+        if (booking.getTicketsCount() == null || booking.getCustomerAge() == null) {
+            throw new IllegalArgumentException("Booking details are incomplete");
+        }
+
         Screening screening = screeningRepository.findById(booking.getScreeningId())
                 .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
 
         Movie movie = movieRepository.findById(screening.getMovieId())
                 .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
 
-        // Викликаємо нашу бізнес-логіку з доменних сутностей
         booking.validateAge(movie);
-        screening.bookSeats(booking.getTicketsCount());
-
-        booking.setStatus(BookingStatus.ACTIVE);
         
-        // Оновлюємо кількість місць у сеансі та зберігаємо бронювання
-        screeningRepository.save(screening);
-        return bookingRepository.save(booking);
+        // Перевіряємо місця, перш ніж їх забронювати
+        if (booking.getTicketsCount() > screening.getAvailableSeats()) {
+            throw new IllegalStateException("Not enough seats available");
+        }
     }
 
     @Transactional
