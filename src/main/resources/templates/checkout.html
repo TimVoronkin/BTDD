@@ -29,19 +29,24 @@
             <div class="receipt">
                 <div class="receipt-row">
                     <span>Ticket Price:</span>
-                    <span th:text="${#numbers.formatDecimal(screening.effectivePrice, 1, 2)} + ' CZK'">150 CZK</span>
+                    <span th:text="${#numbers.formatDecimal(screening.ticketPrice, 1, 2)} + ' CZK'">150 CZK</span>
                 </div>
                 <div class="receipt-row">
                     <span>Quantity:</span>
                     <span th:text="${booking.ticketsCount} + 'x'">2x</span>
                 </div>
-                <div class="receipt-row">
-                    <span>Email:</span>
-                    <span th:text="${booking.customerEmail}">foo@bar.com</span>
+                <div th:if="${screening.morningScreening}" class="receipt-row">
+                    <span>Early Bird Discount:</span>
+                    <span>-20%</span>
                 </div>
                 <div class="receipt-row">
                     <span>Payment Method:</span>
                     <span th:text="${booking.paymentMethod}" style="color: var(--accent);">Google Pay</span>
+                </div>
+
+                <div class="receipt-row">
+                    <span>Email:</span>
+                    <span th:text="${booking.customerEmail}">foo@bar.com</span>
                 </div>
 
                 <hr style="border: 0; border-top: 1px solid #333; margin: 1.5rem 0;">
@@ -78,6 +83,9 @@
 
     <footer>
         <p>&copy; 2026 CinemaBooking by Tim Voronkin</p>
+        <a href="https://github.com/TimVoronkin/BTDD" class="accent">GitHub</a>
+        <span> • <a href="https://www.linkedin.com/in/tim-voronkin/" class="accent">LinkedIn</a></span>
+        <span> • <a href="https://zvit.artstation.com/" class="accent">ArtStation</a></span>
     </footer>
 </body>
 

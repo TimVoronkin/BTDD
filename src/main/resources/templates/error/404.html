@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>404 - Not Found</title>
@@ -15,6 +16,7 @@
             padding: 3rem 1rem;
             min-height: 50vh;
         }
+
         .error-img {
             max-width: 350px;
             width: 100%;
@@ -22,22 +24,34 @@
             filter: drop-shadow(0 0 20px rgba(184, 245, 0, 0.2));
             animation: float 4s ease-in-out infinite;
         }
+
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
+
         .error-title {
             color: var(--accent);
             font-size: 2.2rem;
             margin-bottom: 0.5rem;
             font-weight: 800;
         }
+
         .error-subtitle {
             font-size: 1.2rem;
             color: #ccc;
             margin-bottom: 2.5rem;
         }
+
         .btn-large {
             padding: 0.8rem 2rem;
             font-size: 1.1rem;
@@ -45,6 +59,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="main-header">
         <a th:href="@{/}" class="logo-link">
@@ -70,6 +85,10 @@
 
     <footer>
         <p>&copy; 2026 CinemaBooking by Tim Voronkin</p>
+        <a href="https://github.com/TimVoronkin/BTDD" class="accent">GitHub</a>
+        <span> • <a href="https://www.linkedin.com/in/tim-voronkin/" class="accent">LinkedIn</a></span>
+        <span> • <a href="https://zvit.artstation.com/" class="accent">ArtStation</a></span>
     </footer>
 </body>
+
 </html>

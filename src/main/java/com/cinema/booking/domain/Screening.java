@@ -93,7 +93,7 @@ public class Screening {
         return ticketPrice;
     }
 
-    private boolean isMorningScreening() {
+    public boolean isMorningScreening() {
         return startTime != null && startTime.getHour() < 12;
     }
 
