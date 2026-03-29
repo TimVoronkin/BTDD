@@ -9,11 +9,17 @@
 </head>
 
 <body>
-    <header>
-        <h1>
-            <img th:src="@{/favicon.png}" alt="Logo" class="header-logo">
-            Cinema <span class="accent">Booking</span>
-        </h1>
+    <header class="main-header">
+        <a th:href="@{/}" class="logo-link">
+            <h1>
+                <img th:src="@{/favicon.png}" alt="Logo" class="header-logo">
+                Cinema <span class="accent">Booking</span>
+            </h1>
+        </a>
+        <nav class="header-nav">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About</a>
+        </nav>
     </header>
 
     <main>

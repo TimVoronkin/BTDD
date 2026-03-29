@@ -25,4 +25,9 @@ public class MovieController {
         model.addAttribute("movies", movies);
         return "index";
     }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
 }
