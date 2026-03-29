@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <th:block th:insert="~{fragments/layout :: head('Booking Success - Cinema Booking')}"></th:block>
-    <style>
-        .success-box {
-            text-align: center;
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 3rem;
-            border-radius: 12px;
-            border: 1px solid var(--accent);
-        }
+<th:block th:insert="~{fragments/layout :: head('Booking Success - Cinema Booking')}"></th:block>
+<style>
+    .success-box {
+        text-align: center;
+        max-width: 500px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        padding: 3rem;
+        border-radius: 12px;
+        border: 1px solid var(--accent);
+    }
 
-        .success-icon {
-            font-size: 5rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
+    .success-icon {
+        font-size: 5rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+    }
 
-        .booking-ref {
-            font-family: monospace;
-            font-size: 1.5rem;
-            color: #fff;
-            background: #333;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            display: inline-block;
-            margin: 1.5rem 0;
-        }
-    </style>
+    .booking-ref {
+        font-family: monospace;
+        font-size: 1.5rem;
+        color: #fff;
+        background: #333;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        display: inline-block;
+        margin: 1.5rem 0;
+    }
+</style>
 </head>
 
 <body>
@@ -41,12 +41,19 @@
             <h2>Booking Confirmed!</h2>
             <p class="description">Your tickets have been successfully reserved.</p>
 
-            <p>Your Booking Reference: <br>
-                <span class="booking-ref" th:text="'#' + ${bookingId}">#12345</span>
+            <p>Your Booking Reference:<br>
+                <span class="booking-ref" th:text="${bookingReference}">A9B2</span>
+            </p>
+            <p class="description" style="font-size: 0.85rem; color: #888;">
+                💡 Save this code + your email — you'll need them in <strong>Manage Ticket</strong> to manage your
+                booking.
             </p>
 
-            <div style="margin-top: 2rem;">
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
                 <a th:href="@{/}" class="btn">Return to Schedule</a>
+                <a th:href="@{/manage}" class="btn"
+                    style="background: transparent; border: 1px solid var(--accent); color: var(--accent);">My
+                    Tickets</a>
             </div>
         </div>
     </main>

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.cinema.booking.repository.BookingRepository;
 
 @Controller
 public class BookingController {
@@ -21,14 +23,17 @@ public class BookingController {
     private final ScreeningRepository screeningRepository;
     private final MovieRepository movieRepository;
     private final BookingService bookingService;
+    private final BookingRepository bookingRepository;
 
     @Autowired
     public BookingController(ScreeningRepository screeningRepository,
                              MovieRepository movieRepository,
-                             BookingService bookingService) {
+                             BookingService bookingService,
+                             BookingRepository bookingRepository) {
         this.screeningRepository = screeningRepository;
         this.movieRepository = movieRepository;
         this.bookingService = bookingService;
+        this.bookingRepository = bookingRepository;
     }
 
     @GetMapping("/screenings/{screeningId}/book")
@@ -77,12 +82,13 @@ public class BookingController {
     }
 
     @PostMapping("/screenings/{screeningId}/book")
-    public String confirmBooking(@PathVariable Long screeningId, 
-                                 @ModelAttribute Booking booking, 
+    public String confirmBooking(@PathVariable Long screeningId,
+                                 @ModelAttribute Booking booking,
                                  RedirectAttributes redirectAttributes) {
         try {
             booking.setScreeningId(screeningId);
             Booking savedBooking = bookingService.createBooking(booking);
+            // Передаємо reference у redirect, щоб показати на сторінці Success
             return "redirect:/bookings/" + savedBooking.getId() + "/success";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -92,7 +98,29 @@ public class BookingController {
 
     @GetMapping("/bookings/{bookingId}/success")
     public String bookingSuccess(@PathVariable Long bookingId, Model model) {
-        model.addAttribute("bookingId", bookingId);
+        bookingRepository.findById(bookingId).ifPresent(b -> {
+            model.addAttribute("bookingReference", b.getBookingReference());
+            model.addAttribute("customerEmail", b.getCustomerEmail());
+        });
         return "booking-success";
+    }
+
+    @GetMapping("/manage")
+    public String showManageForm() {
+        return "manage-booking";
+    }
+
+    @PostMapping("/manage/cancel")
+    public String cancelByReference(@RequestParam String email,
+                                    @RequestParam String reference,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            bookingService.cancelBookingByReference(email.trim(), reference.trim().toUpperCase());
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Booking '" + reference.toUpperCase() + "' has been successfully cancelled.");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/manage";
     }
 }
