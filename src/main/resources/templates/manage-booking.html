@@ -24,19 +24,19 @@
                 <span th:text="${errorMessage}"></span>
             </div>
 
-            <form th:action="@{/manage/cancel}" method="post" class="manage-form">
-                <div class="form-group">
-                    <label for="reference">Booking Reference (4 characters)</label>
-                    <input type="text" id="reference" name="reference" placeholder="e.g. A9B2" maxlength="4" required
-                        style="text-transform: uppercase; letter-spacing: 0.3em; font-size: 1.2rem;">
-                </div>
+            <form th:action="@{/manage/view}" method="post" class="manage-form">
 
                 <div class="form-group">
                     <label for="email">Email Used at Checkout</label>
                     <input type="email" id="email" name="email" placeholder="your@email.com" required>
                 </div>
+                <div class="form-group">
+                    <label for="reference">Booking Reference (4 characters)</label>
+                    <input type="text" id="reference" name="reference" placeholder="AAAA" maxlength="4" required
+                        style="letter-spacing: 0.3em; font-size: 1.2rem;">
+                </div>
 
-                <button type="submit" class="btn btn--danger">Cancel Reservation</button>
+                <button type="submit" class="btn">Access your ticket →</button>
             </form>
         </div>
     </main>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Ticket Details - Cinema Booking')}"></head>
+
+<!-- Specific styles for this page only -->
+<style>
+    .ticket-view-main .booking-header-split {
+        margin-bottom: 2rem;
+    }
+
+    .ticket-view-main .receipt {
+        max-width: 800px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        border: 1px solid #333;
+    }
+</style>
+
+<body>
+    <header th:replace="~{fragments/layout :: header}"></header>
+
+    <main class="ticket-view-main">
+        <!-- Movie + Screening info header (reused fragment) -->
+
+        <h2 style="text-align: center; margin-bottom: 0.5rem;">Your Ticket</h2>
+        <p style="text-align: center; color: #888; margin-bottom: 2rem;">
+            Reference: <span class="booking-ref-inline" th:text="${booking.bookingReference}">A9B2</span>
+            &nbsp;•&nbsp;
+            Status:
+            <span th:if="${booking.status.name() == 'ACTIVE'}" style="color: var(--accent); font-weight: 600;">✅
+                Active</span>
+            <span th:if="${booking.status.name() == 'CANCELLED'}" style="color: #ff5050; font-weight: 600;">❌
+                Cancelled</span>
+        </p>
+
+        <div th:replace="~{fragments/layout :: movie-header(${movie}, ${screening})}"></div>
+
+        <!-- Receipt (reused fragment) -->
+        <div th:replace="~{fragments/layout :: booking-receipt(${booking}, ${screening}, ${totalPrice})}"></div>
+
+        <!-- Actions -->
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a th:href="@{/}" class="btn" style="background: transparent; border: 1px solid #555; color: #aaa;">
+                ← Back to Schedule
+            </a>
+            <!-- Show cancel only if booking is still ACTIVE -->
+            <form th:if="${booking.status.name() == 'ACTIVE'}" th:action="@{/manage/cancel}" method="post">
+                <input type="hidden" name="email" th:value="${booking.customerEmail}">
+                <input type="hidden" name="reference" th:value="${booking.bookingReference}">
+                <button type="submit" class="btn btn--danger">❌ Cancel Reservation</button>
+            </form>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

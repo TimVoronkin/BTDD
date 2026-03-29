@@ -31,6 +31,55 @@
         <span> • <a href="https://zvit.artstation.com/" class="accent">ArtStation</a></span>
     </footer>
 
+    <!-- Movie + Screening info header (reused on booking-form, checkout, ticket-view) -->
+    <div th:fragment="movie-header(movie, screening)" class="booking-header-split">
+        <div class="movie-info-left">
+            <img th:src="${movie.posterUrl}" th:alt="${movie.title} + ' Poster'" class="movie-poster-small">
+            <div>
+                <h3 th:text="${movie.title}" style="margin: 0 0 5px 0; color: var(--accent);">Movie Title</h3>
+                <div class="movie-details" style="margin-bottom: 0;">
+                    <span th:text="${movie.year}">2024</span> &bull;
+                    <span th:text="${movie.genre}">Genre</span>
+                </div>
+            </div>
+        </div>
+        <div class="screening-info-right">
+            <div class="screening-time"
+                 th:text="${#temporals.format(screening.startTime, 'dd MMM yyyy, HH:mm')}"
+                 style="font-weight: 600; font-size: 1.1rem; color: #fff;">Date &amp; Time</div>
+            <div class="screening-location" style="color: #aaa; margin-top: 5px;">📍 at Multiplex cinema, Prague</div>
+        </div>
+    </div>
+
+    <!-- Receipt block (reused on checkout and ticket-view) -->
+    <div th:fragment="booking-receipt(booking, screening, totalPrice)" class="receipt">
+        <div class="receipt-row">
+            <span>Ticket Price:</span>
+            <span th:text="${#numbers.formatDecimal(screening.ticketPrice, 1, 2)} + ' CZK'">150 CZK</span>
+        </div>
+        <div class="receipt-row">
+            <span>Quantity:</span>
+            <span th:text="${booking.ticketsCount} + 'x'">2x</span>
+        </div>
+        <div th:if="${screening.morningScreening}" class="receipt-row">
+            <span>Early Bird Discount:</span>
+            <span>-20%</span>
+        </div>
+        <div class="receipt-row">
+            <span>Payment Method:</span>
+            <span th:text="${booking.paymentMethod}" style="color: var(--accent);">Google Pay</span>
+        </div>
+        <div class="receipt-row">
+            <span>Email:</span>
+            <span th:text="${booking.customerEmail}">foo@bar.com</span>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #333; margin: 1.5rem 0;">
+        <div class="receipt-row total">
+            <span>Total Amount:</span>
+            <span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)} + ' CZK'">300 CZK</span>
+        </div>
+    </div>
+
 </body>
 
 </html>

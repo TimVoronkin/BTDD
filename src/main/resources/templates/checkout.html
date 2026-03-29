@@ -5,41 +5,13 @@
 
 <body>
     <header th:replace="~{fragments/layout :: header}"></header>
-
     <main>
-        <div class="booking-container">
+        <div th:replace="~{fragments/layout :: movie-header(${movie}, ${screening})}"></div>
+
+        <div class="booking-container" style="margin-top: 2rem;">
             <h2 style="text-align: center; margin-bottom: 2rem;">Checkout Summary</h2>
 
-            <div class="receipt">
-                <div class="receipt-row">
-                    <span>Ticket Price:</span>
-                    <span th:text="${#numbers.formatDecimal(screening.ticketPrice, 1, 2)} + ' CZK'">150 CZK</span>
-                </div>
-                <div class="receipt-row">
-                    <span>Quantity:</span>
-                    <span th:text="${booking.ticketsCount} + 'x'">2x</span>
-                </div>
-                <div th:if="${screening.morningScreening}" class="receipt-row">
-                    <span>Early Bird Discount:</span>
-                    <span>-20%</span>
-                </div>
-                <div class="receipt-row">
-                    <span>Payment Method:</span>
-                    <span th:text="${booking.paymentMethod}" style="color: var(--accent);">Google Pay</span>
-                </div>
-
-                <div class="receipt-row">
-                    <span>Email:</span>
-                    <span th:text="${booking.customerEmail}">foo@bar.com</span>
-                </div>
-
-                <hr style="border: 0; border-top: 1px solid #333; margin: 1.5rem 0;">
-
-                <div class="receipt-row total">
-                    <span>Total Amount:</span>
-                    <span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)} + ' CZK'">300 CZK</span>
-                </div>
-            </div>
+            <div th:replace="~{fragments/layout :: booking-receipt(${booking}, ${screening}, ${totalPrice})}"></div>
 
             <form th:action="@{'/screenings/' + ${screening.id} + '/book'}" method="post" class="booking-form"
                 style="margin-top: 2rem;">

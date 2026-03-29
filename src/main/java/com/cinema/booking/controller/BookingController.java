@@ -110,6 +110,46 @@ public class BookingController {
         return "manage-booking";
     }
 
+    @PostMapping("/manage/view")
+    public String showTicket(@RequestParam String email,
+                             @RequestParam String reference,
+                             Model model,
+                             RedirectAttributes redirectAttributes) {
+        try {
+            String ref = reference.trim().toUpperCase();
+            String normalizedEmail = email.trim();
+
+            // Reuse the same secure lookup from BookingService
+            // We need to find the booking first — delegate validation to service layer via a lookup
+            com.cinema.booking.domain.Booking booking = bookingRepository
+                    .findByBookingReference(ref)
+                    .orElseThrow(() -> new IllegalArgumentException("No booking found for this reference."));
+
+            if (!booking.getCustomerEmail().equalsIgnoreCase(normalizedEmail)) {
+                throw new IllegalArgumentException("Invalid email for this booking reference.");
+            }
+
+            Screening screening = screeningRepository.findById(booking.getScreeningId())
+                    .orElseThrow(() -> new IllegalArgumentException("Screening not found."));
+
+            Movie movie = movieRepository.findById(screening.getMovieId())
+                    .orElseThrow(() -> new IllegalArgumentException("Movie not found."));
+
+            double totalPrice = screening.getEffectivePrice() * booking.getTicketsCount();
+
+            model.addAttribute("booking", booking);
+            model.addAttribute("screening", screening);
+            model.addAttribute("movie", movie);
+            model.addAttribute("totalPrice", totalPrice);
+
+            return "ticket-view";
+
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/manage";
+        }
+    }
+
     @PostMapping("/manage/cancel")
     public String cancelByReference(@RequestParam String email,
                                     @RequestParam String reference,
