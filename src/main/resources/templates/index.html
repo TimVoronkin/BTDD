@@ -18,7 +18,7 @@
                     <span th:text="${movie.runtime}">Runtime</span>
                 </div>
 
-                <p class="description" th:text="${movie.description}">Description</p>
+                <!-- <p class="description" th:text="${movie.description}">Description</p> -->
                 <div class="meta">
                     <span class="rating" th:text="${movie.ageRating} + '+'">12+</span>
                     <a th:href="@{'/movies/' + ${movie.id} + '/screenings'}" class="btn">View Sessions</a>
