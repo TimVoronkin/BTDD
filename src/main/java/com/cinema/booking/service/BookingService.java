@@ -11,9 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.security.SecureRandom;
 
 @Service
 public class BookingService {
+
+    private static final String REFERENCE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final int REFERENCE_LENGTH = 4;
+    private final SecureRandom random = new SecureRandom();
 
     private final BookingRepository bookingRepository;
     private final ScreeningRepository screeningRepository;
@@ -35,7 +40,8 @@ public class BookingService {
         Screening screening = screeningRepository.findById(booking.getScreeningId()).get();
         screening.bookSeats(booking.getTicketsCount());
         booking.setStatus(BookingStatus.ACTIVE);
-        
+        booking.setBookingReference(generateReference());
+
         // Оновлюємо кількість місць у сеансі та зберігаємо бронювання
         screeningRepository.save(screening);
         return bookingRepository.save(booking);
@@ -78,7 +84,30 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
+    public String generateReference() {
+        StringBuilder sb = new StringBuilder(REFERENCE_LENGTH);
+        for (int i = 0; i < REFERENCE_LENGTH; i++) {
+            sb.append(REFERENCE_CHARS.charAt(random.nextInt(REFERENCE_CHARS.length())));
+        }
+        return sb.toString();
+    }
+
+    @Transactional
     public void cancelBookingByReference(String email, String reference) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+        Booking booking = bookingRepository.findByBookingReference(reference)
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found for this reference."));
+
+        if (!booking.getCustomerEmail().equalsIgnoreCase(email)) {
+            throw new IllegalArgumentException("Invalid email for this booking reference.");
+        }
+
+        Screening screening = screeningRepository.findById(booking.getScreeningId())
+                .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
+
+        booking.cancel(LocalDateTime.now(), screening.getStartTime());
+        screening.setAvailableSeats(screening.getAvailableSeats() + booking.getTicketsCount());
+
+        screeningRepository.save(screening);
+        bookingRepository.save(booking);
     }
 }
