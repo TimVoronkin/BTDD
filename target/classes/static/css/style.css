@@ -107,7 +107,7 @@ main {
 
 .movie-poster {
     width: 100%;
-    height: 380px;
+    /* height: 380px; */
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 1rem;
@@ -289,7 +289,7 @@ footer {
     height: 90px;
     object-fit: cover;
     border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .screening-info-right {
@@ -457,7 +457,7 @@ select:focus {
     width: 100%;
     max-width: 600px;
     border-radius: 8px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
     border: 2px solid #333;
     object-fit: cover;
 }

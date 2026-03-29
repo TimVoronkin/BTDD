@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 public class DataInitializer {
 
     @Bean
-    public CommandLineRunner initData(MovieRepository movieRepository, 
-                                      ScreeningRepository screeningRepository,
-                                      OmdbService omdbService) {
+    public CommandLineRunner initData(MovieRepository movieRepository,
+            ScreeningRepository screeningRepository,
+            OmdbService omdbService) {
         return args -> {
             if (movieRepository.count() == 0) {
-                
+
                 // 1. Joker (tt7286456)
                 Movie joker = new Movie();
                 omdbService.fetchMovieDetails(joker, "tt7286456");
@@ -45,15 +45,22 @@ public class DataInitializer {
                 totoro.setAgeRating(0);
                 movieRepository.save(totoro);
 
+                // 5. Back to the Future (tt0088763)
+                Movie backToTheFuture = new Movie();
+                omdbService.fetchMovieDetails(backToTheFuture, "tt0088763");
+                backToTheFuture.setAgeRating(12);
+                movieRepository.save(backToTheFuture);
+
                 // --- Generate Screenings for each movie ---
-                Movie[] newMovies = {joker, interstellar, borat, totoro};
-                double[] prices = {150.0, 160.0, 120.0, 110.0};
-                
+                Movie[] newMovies = { joker, interstellar, borat, totoro, backToTheFuture };
+                double[] prices = { 150.0, 160.0, 120.0, 110.0, 130.0 };
+
                 for (int i = 0; i < newMovies.length; i++) {
                     // Morning screening (20% discount applies via TDD logic during booking)
                     Screening s1 = new Screening();
                     s1.setMovieId(newMovies[i].getId());
-                    // Виставляємо фіксовано на квітень 2026, розподіляючи дати через день: 18, 20, 22, 24 квітня
+                    // Виставляємо фіксовано на квітень 2026, розподіляючи дати через день: 18, 20,
+                    // 22, 24 квітня
                     s1.setStartTime(LocalDateTime.of(2026, 4, 18 + (i * 2), 10, 0));
                     s1.setTicketPrice(prices[i]);
                     s1.setTotalSeats(100);
