@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}">Cinema Booking</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/png" th:href="@{/favicon.png}">
+</head>
+
+<body>
+
+    <header th:fragment="header" class="main-header">
+        <a th:href="@{/}" class="logo-link">
+            <h1>
+                <img th:src="@{/favicon.png}" alt="Logo" class="header-logo">
+                Cinema <span class="accent">Booking</span>
+            </h1>
+        </a>
+        <nav class="header-nav">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About</a>
+        </nav>
+    </header>
+
+    <footer th:fragment="footer">
+        <p>&copy; 2026 CinemaBooking by Tim Voronkin</p>
+        <a href="https://github.com/TimVoronkin/BTDD" class="accent">GitHub</a>
+        <span> • <a href="https://www.linkedin.com/in/tim-voronkin/" class="accent">LinkedIn</a></span>
+        <span> • <a href="https://zvit.artstation.com/" class="accent">ArtStation</a></span>
+    </footer>
+
+</body>
+</html>
