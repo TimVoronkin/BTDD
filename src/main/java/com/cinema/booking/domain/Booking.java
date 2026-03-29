@@ -21,11 +21,15 @@ public class Booking {
     private Integer ticketsCount;
     private String customerEmail;
     private String paymentMethod;
+    private String bookingReference;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status; // ACTIVE or CANCELLED
 
     public Booking() {}
+
+    public String getBookingReference() { return bookingReference; }
+    public void setBookingReference(String bookingReference) { this.bookingReference = bookingReference; }
 
     public Long getId() {
         return id;

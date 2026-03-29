@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByCustomerName(String customerName);
+    java.util.Optional<Booking> findByBookingReference(String bookingReference);
 }

@@ -77,4 +77,8 @@ public class BookingService {
         screeningRepository.save(screening);
         bookingRepository.save(booking);
     }
+
+    public void cancelBookingByReference(String email, String reference) {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
 }

@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Movie {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,11 +20,11 @@ public class Movie {
     private String title;
 
     private String description;
-    
+
     // Нові поля для OMDb API
     @Column(name = "release_year")
     private String year;
-    
+
     private String runtime;
     private String genre;
     private String posterUrl;
@@ -33,7 +33,8 @@ public class Movie {
     @Min(value = 0, message = "Age rating cannot be negative")
     private Integer ageRating;
 
-    public Movie() {}
+    public Movie() {
+    }
 
     public Long getId() {
         return id;
@@ -59,17 +60,37 @@ public class Movie {
         this.description = description;
     }
 
-    public String getYear() { return year; }
-    public void setYear(String year) { this.year = year; }
+    public String getYear() {
+        return year;
+    }
 
-    public String getRuntime() { return runtime; }
-    public void setRuntime(String runtime) { this.runtime = runtime; }
+    public void setYear(String year) {
+        this.year = year;
+    }
 
-    public String getGenre() { return genre; }
-    public void setGenre(String genre) { this.genre = genre; }
+    public String getRuntime() {
+        return runtime;
+    }
 
-    public String getPosterUrl() { return posterUrl; }
-    public void setPosterUrl(String posterUrl) { this.posterUrl = posterUrl; }
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
 
     public Integer getAgeRating() {
         return ageRating;
