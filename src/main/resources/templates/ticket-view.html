@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragments/layout :: head('Ticket Details - Cinema Booking')}"></head>
-
-<!-- Specific styles for this page only -->
-<style>
-    .ticket-view-main .booking-header-split {
-        margin-bottom: 2rem;
-    }
-
-    .ticket-view-main .receipt {
-        max-width: 800px;
-        margin: 0 auto;
-        background: var(--card-bg);
-        padding: 2rem;
-        border-radius: 12px;
-        border: 1px solid #333;
-    }
-</style>
 
 <body>
     <header th:replace="~{fragments/layout :: header}"></header>
@@ -26,7 +7,7 @@
         <!-- Movie + Screening info header (reused fragment) -->
 
         <h2 style="text-align: center; margin-bottom: 0.5rem;">Your Ticket</h2>
-        <p style="text-align: center; color: #888; margin-bottom: 2rem;">
+        <p style="text-align: center; color: #888; margin-bottom: 2.5rem;">
             Reference: <span class="booking-ref-inline" th:text="${booking.bookingReference}">A9B2</span>
             &nbsp;•&nbsp;
             Status:

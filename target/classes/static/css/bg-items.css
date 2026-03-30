@@ -1,0 +1,27 @@
+#cinema-bg {
+    position: fixed;
+    inset: -50px;
+    /* bleed out to prevent gaps during tilt */
+    pointer-events: none;
+    /* clicks pass through */
+    z-index: 0;
+    overflow: hidden;
+}
+
+#cinema-bg img {
+    position: absolute;
+    opacity: 0.3;
+    /* made it lighter/more visible */
+    user-select: none;
+    will-change: transform;
+    object-fit: contain;
+    /* preserve aspect ratio */
+}
+
+/* ensure all page content sits above the bg layer */
+body>header,
+body>main,
+body>footer {
+    position: relative;
+    z-index: 1;
+}
