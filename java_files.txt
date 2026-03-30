@@ -1,0 +1,17 @@
+src/main/java/com/cinema/booking/CinemaBookingApplication.java
+src/main/java/com/cinema/booking/config/DataInitializer.java
+src/main/java/com/cinema/booking/controller/BookingController.java
+src/main/java/com/cinema/booking/controller/MovieController.java
+src/main/java/com/cinema/booking/controller/ScreeningController.java
+src/main/java/com/cinema/booking/domain/Booking.java
+src/main/java/com/cinema/booking/domain/BookingStatus.java
+src/main/java/com/cinema/booking/domain/Movie.java
+src/main/java/com/cinema/booking/domain/Screening.java
+src/main/java/com/cinema/booking/repository/BookingRepository.java
+src/main/java/com/cinema/booking/repository/MovieRepository.java
+src/main/java/com/cinema/booking/repository/ScreeningRepository.java
+src/main/java/com/cinema/booking/service/BookingService.java
+src/main/java/com/cinema/booking/service/OmdbService.java
+src/test/java/com/cinema/booking/domain/BookingTest.java
+src/test/java/com/cinema/booking/domain/ScreeningTest.java
+src/test/java/com/cinema/booking/service/BookingServiceTest.java

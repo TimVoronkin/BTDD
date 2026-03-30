@@ -1,53 +1,60 @@
-# Cinema Booking System (TDD Project) 🎬🍿
+# <img src="src/main/resources/static/imgs/icon.png" width="48" height="48" alt="icon" style="vertical-align: middle; padding-right: 10px;"/> CinemaBooking - Dokumentace
+Projekt Tima Voronkina pro předmět Programování řízené testy (BTDD).
 
-A modern, robust cinema booking system backend built strictly with **Test-Driven Development (TDD)** as part of a university semester project. The project demonstrates clean architecture, business logic encapsulation, and high test coverage.
+## Popis domény a funkcí
+**CinemaBooking** je webová aplikace na bázi Spring Boot pro správu rezervací vstupenek v kině. Umožňuje uživatelům prohlížet dostupné filmy a projekce a také rychle a pohodlně rezervovat vstupenky online.
+Hlavní funkce systému:
+- Prohlížení programu filmů s metadaty (získávána přes externí API služby, např. OMDB).
+- Rezervace vstupenek s dodržením přísných obchodních pravidel (kontrola dostupnosti volných míst, omezení nákupu na maximálně 6 vstupenek na osobu, kontrola věkového hodnocení filmu).
+- Automatický výpočet ceny: ochrana proti záporné ceně a uplatnění automatické slevy 20 % na dopolední projekce (do 12:00).
+- Zrušení rezervací (povoleno nejpozději 1 hodinu před začátkem projekce).
 
-## 🚀 Features & Business Rules
-The core of this application is driven by 6 strict business rules developed using the **Red-Green-Refactor** cycle:
+## Návod ke spuštění
+Aplikaci lze spustit lokálně několika způsoby:
 
-1. **Price Validation:** Ticket price cannot be negative or zero.
-2. **Seat Availability:** A booking cannot be made if there are not enough available seats in the screening.
-3. **Morning Discount:** Screenings before 12:00 PM automatically apply a 20% discount to the ticket price.
-4. **Ticket Limit:** A single user can book a maximum of 6 tickets per transaction.
-5. **Age Rating Check:** The system strictly checks if the customer's age is greater than or equal to the movie's age rating (e.g., 16+).
-6. **Cancellation Window:** Bookings can only be cancelled if there is more than 1 hour remaining until the screening starts.
+1. **Pomocí Dockeru:**<br>
+   Projekt obsahuje multi-stage Dockerfile, který automaticky zkompiluje a spustí aplikaci bez nutnosti instalovat lokálně Java prostředí. Z kořenové složky spusťte:
+   ```bash
+   docker build -t cinema-booking .
+   docker run -p 8080:8080 cinema-booking
+   ```
+   Aplikace bude následně dostupná na adrese: [http://localhost:8080](http://localhost:8080).
 
-## 🛠️ Technology Stack
-- **Java 21**
-- **Spring Boot 3.x**
-- **Spring Data JPA** (Hibernate)
-- **H2 Database** (In-memory, for easy testing)
-- **Thymeleaf** (Modern dark-themed UI with Lime Green accents)
-- **JUnit 5 / Mockito** (For TDD)
-- **JaCoCo** (Test coverage reporting)
-- **GitHub Actions** (CI pipeline for automated testing)
+2. **Spuštění přes terminál (Maven):**
+   ```bash
+   mvn spring-boot:run
+   ```
+   *Poznámka: Testovací data (filmy a rozvrh) se u obou způsobů automaticky vygenerují do in-memory databáze H2 během startu.*
 
-## 💻 How to Run Locally
+3. **Spuštění testů a vygenerování zprávy o pokrytí kódů:**
+   ```bash
+   mvn clean test jacoco:report
+   ```
+   Zprávu s analýzou v JaCoCo naleznete v souboru `target/site/jacoco/index.html`.
 
-You can run the project either via your favorite IDE (IntelliJ IDEA, VS Code) or using Maven.
+## Architektura systému
+Projekt je založen na klasické vícevrstvé architektuře (Layered Architecture):
+- **Controllers (Prezentační vrstva):** Zpracovávají HTTP požadavky frontendových formulářů a komunikují s uživatelem přes HTML šablony (Thymeleaf). Neobsahují zásadní obchodní logiku.
+- **Service (Vrstva obchodní logiky):** Srdce projektu. Zde jsou implementována veškerá doménová pravidla rezervací (`BookingService`) a adaptéry pro komunikaci s externími API (`OmdbService`).
+- **Repository (Datová vrstva):** Poskytuje rozhraní Spring Data JPA pro interakci s databází H2.
+- **Domain (Vrstva entit):** Hlavní datové modely reprezentující tabulky (`Movie`, `Screening`, `Booking`).
 
-### Using IDE (Recommended):
-1. Open the project folder in your IDE.
-2. Run the `CinemaBookingApplication` main class.
-3. Open `http://localhost:8080` in your browser.
+## Strategie testování
+Vývoj probíhal ověřenou metodikou **TDD (Test-Driven Development)**:
+- **Jednotkové (Unit) testy:** Ověřují menší izolované komponenty (algoritmy slev, storno podmínky). Jsou bleskurychlé a spouštějí se bez startování databáze.
+- **Integrační testy:** Zjišťují, zda spolu vrstvy správně komunikují v reálném nasazení (např. zápis entity z vrstvy Service přímo do in-memory databáze).
+- **BDD (Behavior-Driven Development) testy:** Ověřují celkové případové užití. Testy mají strukturu `Given - When - Then` (Dáno - Když - Pak), a tak fungují jako srozumitelná technická dokumentace k logickým scénářům uživatelů.
 
-### Using Command Line (Maven):
-Since the project uses a standard Maven setup:
-```bash
-mvn spring-boot:run
-```
+**Využití objektů Mock:**
+Při jednotkovém testování (`BookingServiceTest`) byly používány záměrné závislosti typu **Mock** (náhražky) pro `BookingRepository`, `ScreeningRepository` i pro službu `OmdbService`.
+*Důvody k použití:*
+1. **Rychlost:** K ověření výpočtu matematické slevy není potřeba navazovat pomalé fyzické spojení se souborem databáze.
+2. **Determinismus a izolace:** Umožňuje předem nasimulovat chybové zprávy z externích API (třeba simulace odpojení od sítě), číst přesná data beze změny testovací DB (testování filmu s přesně 0 volnými místy), aby nedocházelo k náhodnému selhání validních testů.
 
-**Note:** The application uses an `H2` in-memory database. All test data (Movies and Screenings) is automatically generated on startup via the `DataInitializer` class.
+## Pokrytí kódu (Code Coverage)
+JaCoCo plugin v projektu vyhodnocuje metriky otestovaného kódu, které jsou primárně mířeny na nejdůležitější vrstvy logiky:
+- **Stanovené cíle:** $\ge$ **80 % pokrytí řádků (Line Coverage)** a $\ge$ **70 % pokrytí větvení (Branch Coverage).** Účtuje se, že nejdůležitější bloky `if/else`, try/catch a výpočtové algoritmy jsou tak spolehlivě otestovány proti chybám.
 
-## 🧪 Testing (TDD Process)
-
-This project strictly followed the TDD workflow. You can view the commit history (`git log`) to see the step-by-step implementation of unit tests before the actual business logic was written.
-
-To run tests and see the coverage report:
-```bash
-mvn clean test jacoco:report
-```
-*The JaCoCo test coverage report will be generated in `target/site/jacoco/index.html`.*
-
-## 🎨 UI Design
-The UI is fully responsive and uses a premium Dark Theme (`#0a0a0a`) with vibrant Lime Green (`#b8f500`) accents, providing a sleek, modern user experience. All prices are displayed in **CZK**.
+**Výjimky (kód neotestovaný záměrně):**
+- **Vnitřnosti DTO/POJO a Controllery:** Obyčejné konstruktory, `@Getter` a `@Setter` metody představují automaticky vygenerovaný nebo zcela stereotypní kód (bez logiky nebo skrytých cyklů). Controllery fungují jen jako předávací mechanismus. Náklady na vytváření umělého MockMvc prostředí pro každou takovou metodu jsou v nepoměru s reálnou přidanou hodnotou (nízké ROI).
+- **Bootovací a konfigurační třídy (`DataInitializer`, Startovací main metoda):** Třídy spouštějící Spring Boot se validují komplexními integračními (E2E) spuštěními. Modulární mockování těchto vrstev je nepraktické a zbytečné z hlediska kvality domény projektu.
