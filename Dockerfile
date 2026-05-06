@@ -10,13 +10,11 @@ WORKDIR /app
 # only re-downloads deps when pom.xml changes, not on every code change)
 COPY pom.xml .
 RUN apk add --no-cache maven
-RUN --mount=type=cache,id=m2_cache,target=/root/.m2 \
-    mvn -f pom.xml dependency:go-offline -B 2>/dev/null || true
+RUN mvn -f pom.xml dependency:go-offline -B 2>/dev/null || true
 
 # Copy source and build the JAR (skip tests — they already ran in CI)
 COPY src ./src
-RUN --mount=type=cache,id=m2_cache,target=/root/.m2 \
-    mvn -f pom.xml clean package -DskipTests -B
+RUN mvn -f pom.xml clean package -DskipTests -B
 
 # ─────────────────────────────────────────────
 # STAGE 2: Runtime
